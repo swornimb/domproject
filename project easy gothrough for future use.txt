@@ -1,0 +1,7 @@
+Project details
+•	Made a progress bar whose width increases as no. of todo is checked.
+•	It tells percentage of list that is completed.
+•	On hovering the todo text it shows extra detais.
+•	When checked the text is crossed.
+•	The text can be deleted from clicking x.
+•	Validated todo input type. Cannot be submitted without adding it. Messege box appears if done so. While desc input type is not necessary
