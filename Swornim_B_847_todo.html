@@ -1,0 +1,214 @@
+<html>
+    <head>
+        <title>Project</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style>
+            body{
+                background-color: #20918c;
+            }
+            .box {
+                background: white;
+            }
+            a:hover {
+                color: inherit;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .done{
+                text-decoration: line-through;
+            }
+
+            .hide{
+                display: none;
+            }
+            .show:hover + .hide{
+                display: inline;
+                background-color: #206291;
+                padding: 25px;
+                border-radius: 2px;
+                margin-right: 10px;
+
+            }
+            .line{
+                background-color: #20918c;
+                height: 5px;
+                margin-bottom: 3px;
+                
+            }
+            #percentage{
+                font-size: 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="box" style="border:  1px solid grey; padding: 10px; margin-top: 20px; border-radius: 15px; ">
+                        <div class="line"></div>
+                        <div class="row">
+                            <div class="col-md-12 text-center" >
+                                <h2>To Do List</h2>
+                            </div>
+                        </div>
+                        <div id = messege class="alert">
+
+                        </div>
+                        <div class="form-row">
+                            
+                            <div class="col-md-4">
+                                <input type="text" class="form-control one" placeholder="TODO">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control two" placeholder="One liner detail">
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn" onclick="myfunction(event); secfunc()"> Add</button>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="form-check details" style="    
+                            padding: 10px;
+                            background: #20918c;
+                            border-radius: 5px;
+                            margin-top: 10px;
+                            font-weight: 500;">     
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center mt-3" >
+                                <div id="percentage">
+
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2"></div>
+            </div>                           
+        </div>
+        <script>
+
+           
+
+            var datas = document.querySelector('.box-body');
+            datas.addEventListener('click', (event)=>{
+                if (event.target.className === 'aa') {
+            var row = event.target.parentElement.parentElement;
+            row.remove()
+        }
+            })
+
+            function myfunction(e){
+                e.preventDefault();
+
+                var formcheck = document.querySelector('.form-check')
+                var thevalue=document.querySelector('.one').value;
+                if(thevalue==''){
+                    messege = document.getElementById('messege');
+                    messege.classList.add('alert-danger');
+                    messege.innerHTML = "You must write todo";
+                }else{
+                messege.classList.remove('alert-danger');
+                messege.innerHTML = '';
+                var secvalue = document.querySelector('.two').value;
+                document.querySelector('.one').value='';
+                document.querySelector('.two').value='';
+                var line =  document.createElement('div')
+                line.classList.add('col-md-12');
+                line.classList.add('onhover');
+                var mycheckbox = document.createElement('input');
+                mycheckbox.setAttribute ('type', "checkbox");
+                mycheckbox.classList.add('form-check-input');
+
+                var mylable = document.createElement('label');
+                mylable.classList.add('form-check-label');
+                mylable.classList.add('show');
+                mylable.textContent = thevalue;
+
+                var mylable2 = document.createElement('label');
+                mylable2.classList.add('form-check-label');
+                mylable2.classList.add('hide');
+                mylable2.textContent = secvalue;
+
+                var floatright=document.createElement('div');
+                floatright.classList.add('float-right');
+                var anchor= document.createElement('a');
+                anchor.classList.add('aa');
+                anchor.innerHTML='x';
+                var clearfix = document.createElement('div')
+                clearfix.classList.add('clearfix');
+                floatright.appendChild(anchor);
+                line.appendChild(mycheckbox);
+                line.appendChild(mylable);
+                line.appendChild(mylable2);
+                line.appendChild(floatright);
+                formcheck.appendChild(line);
+                line.appendChild(clearfix);
+                }
+                
+                
+            }
+            
+        function secfunc(){
+            var check = document.querySelectorAll('.form-check-input')
+            for(let i=0; i<check.length; i++){
+                check[i].onclick = function(){
+                    if(check[i].checked === true){
+                       var next = check[i].nextSibling;
+                       next.classList.add('done')
+                    }else if(check[i].checked === false){
+                        var next = check[i].nextSibling;
+                        next.classList.remove('done')   
+                    }
+                }
+            }
+        }
+
+        
+        
+        function percentage(){
+            count= 0;
+            var check = document.querySelectorAll('.form-check-input');
+            arrlength = check.length;
+            for(let i=0; i<check.length; i++){
+                if(check[i].checked==true){
+                    count++
+                }
+            }
+            var mypercentage = (count/arrlength)*100;
+            mypercentage = mypercentage.toFixed();
+            var init = document.getElementById('percentage');
+            if(mypercentage=='NaN'){
+                init.innerHTML = "Nothing to complete";
+            }else{
+                init.innerHTML = mypercentage+"% completed";
+            }
+
+            myline = document.querySelector('.line').style.width = mypercentage+'%';
+            var details = document.querySelector('.details');
+        if(details.innerHTML== false){
+            details.style.background = "none";
+        }else {
+            details.style.background = "#20918c";
+        }
+            
+        }
+
+       
+
+        setInterval(percentage, 100);   
+        
+
+        
+
+            
+        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
